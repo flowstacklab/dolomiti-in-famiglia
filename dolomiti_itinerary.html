@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#eef2f7;color:#1a2e3b;font-size:15px}
+.hdr{background:linear-gradient(135deg,#1b3f6e 0%,#2c6db5 60%,#3a8fd1 100%);color:#fff;padding:22px 20px 18px;text-align:center}
+.hdr h1{font-size:1.7em;letter-spacing:-.5px;margin-bottom:5px}
+.hdr p{opacity:.82;font-size:.9em}
+.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.badge{background:rgba(255,255,255,.18);padding:4px 13px;border-radius:20px;font-size:.78em;backdrop-filter:blur(4px)}
+.tabs{display:flex;overflow-x:auto;background:#152e52;scrollbar-width:none;padding:0 6px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:11px 15px;cursor:pointer;color:rgba(255,255,255,.62);white-space:nowrap;font-size:.8em;border-bottom:3px solid transparent;transition:.2s;flex-shrink:0}
+.tab:hover{color:#fff}
+.tab.on{color:#fff;border-bottom-color:#f08030}
+.wrap{max-width:940px;margin:0 auto;padding:20px 14px 40px}
+.sec{display:none}.sec.on{display:block}
+.dc{background:#fff;border-radius:12px;margin-bottom:18px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.dc-hdr{background:linear-gradient(135deg,#2561a8,#1b4a8a);color:#fff;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.dc-hdr.dep{background:linear-gradient(135deg,#5d4037,#7b5343)}
+.dnum{font-size:.74em;opacity:.75;letter-spacing:.5px;text-transform:uppercase}
+.dtitle{font-size:1.08em;font-weight:700;margin-top:2px}
+.ddate{font-size:.84em;opacity:.88;font-style:italic}
+.db{padding:16px 18px}
+.tblk{margin-bottom:14px}
+.tlabel{display:inline-block;padding:2px 11px;border-radius:12px;font-size:.72em;font-weight:700;letter-spacing:.3px;margin-bottom:7px;color:#fff}
+.m{background:#e07320}.l{background:#3d9940}.p{background:#7c3bab}.s{background:#1b3f6e}
+p{line-height:1.6;margin-top:5px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}
+.chip{padding:3px 11px;border-radius:12px;font-size:.73em;border:1px solid}
+.cg{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
+.co{background:#fff3e0;border-color:#ffc56e;color:#c54400}
+.cb{background:#e3f2fd;border-color:#90c8f5;color:#1250a0}
+.cr{background:#ffebee;border-color:#ef9a9a;color:#b01c1c}
+.tipbox{background:#fffbef;border-left:4px solid #f9a825;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.84em;line-height:1.55}
+.rainbox{background:#f0f6ff;border-left:4px solid #4499dd;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.84em}
+.optbox{background:#f3e5f5;border-left:4px solid #9c27b0;padding:11px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.84em;line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:.82em;margin:12px 0}
+th{background:#1b3f6e;color:#fff;padding:9px 11px;text-align:left;font-weight:600}
+td{padding:8px 11px;border-bottom:1px solid #e5ecf3;vertical-align:top;line-height:1.5}
+tr:nth-child(even) td{background:#f7fafe}
+tr:hover td{background:#eaf3fd}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px;margin:14px 0}
+.card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 7px rgba(0,0,0,.07)}
+.card h3{font-size:.96em;color:#1b3f6e;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.rk{background:#f08030;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.76em;font-weight:700;flex-shrink:0}
+.card p{font-size:.83em;line-height:1.55;color:#333}
+.btotal{background:linear-gradient(135deg,#1b3f6e,#2c6db5);color:#fff;padding:18px;border-radius:10px;text-align:center;margin:16px 0}
+.bamt{font-size:2.1em;font-weight:800;letter-spacing:-1px}
+.cl{list-style:none;padding:0}
+.cl li{padding:7px 0 7px 28px;position:relative;border-bottom:1px solid #edf1f5;font-size:.88em;line-height:1.5}
+.cl li::before{position:absolute;left:5px;font-weight:700}
+.cl li.ok::before{content:'✓';color:#3d9940}
+.cl li.bad::before{content:'✗';color:#d32f2f}
+.cl li.warn::before{content:'⚠';color:#e07320}
+.stitle{font-size:1.25em;color:#1b3f6e;margin-bottom:16px;padding-bottom:8px;border-bottom:2.5px solid #f08030;font-weight:700}
+.infobox{border-radius:10px;padding:14px 16px;margin:13px 0;font-size:.87em;line-height:1.6}
+.ib-blue{background:#e8f2ff;border:1px solid #adc8f0}
+.ib-orange{background:#fff3e0;border:1px solid #ffc56e}
+.ib-green{background:#e8f5e9;border:1px solid #a5d6a7}
+.ib-purple{background:#f3e5f5;border:1px solid #ce93d8}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:768px){.tabs{flex-wrap:wrap;overflow-x:visible;justify-content:center;padding:6px}.tab{padding:8px 10px;font-size:.75em;flex:1 1 auto;min-width:90px;text-align:center;border-bottom:2px solid transparent}.tab.on{border-bottom-color:#f08030}}
+@media(max-width:580px){.hdr h1{font-size:1.3em}.twocol{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.dc-hdr{flex-direction:column}.wrap{padding:12px 8px 32px}}
+</style>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="theme-color" content="#1b3f6e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dolomiti">
+<meta name="description" content="Itinerario completo Dolomiti in famiglia, 19-25 giugno 2026">
+</head>
+<body>
+
+<div class="hdr">
+  <div style="font-size:2.2em;margin-bottom:4px">🏔️</div>
+  <h1>Dolomiti in Famiglia</h1>
+  <p>Itinerario completo • 19–25 giugno 2026 • Hotel Villa Emma, Canazei (TN)</p>
+  <div class="badges">
+    <span class="badge">👨‍👩‍👦‍👦 Papà, Mamma, Federico e Giulio</span>
+    <span class="badge">📅 6 notti</span>
+    <span class="badge">🚗 Auto a noleggio</span>
+    <span class="badge">🍽️ Pensione completa</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="showTab('iti',this)">📅 Itinerario</div>
+  <div class="tab" onclick="showTab('map',this)">🗺️ Spostamenti</div>
+  <div class="tab" onclick="showTab('top',this)">⭐ Top 10 Attività</div>
+  <div class="tab" onclick="showTab('rst',this)">🍽️ Ristoranti</div>
+  <div class="tab" onclick="showTab('pib',this)">🌧️ Piano B</div>
+  <div class="tab" onclick="showTab('bud',this)">💰 Budget</div>
+  <div class="tab" onclick="showTab('bag',this)">🧳 Valigia</div>
+  <div class="tab" onclick="showTab('tip',this)">💡 Consigli</div>
+  <div class="tab" onclick="showTab('err',this)">⚠️ Errori</div>
+  <div class="tab" onclick="showTab('pho',this)">📸 Fotografia</div>
+</div>
+
+<div class="wrap">
+
+<!-- ===== ITINERARIO ===== -->
+<div id="iti" class="sec on">
+<div class="stitle">📅 Itinerario Giorno per Giorno</div>
+
+<!-- G1 -->
+<div class="dc">
+  <div class="dc-hdr">
+    <div><div class="dnum">Giorno 1 — Venerdì 19 Giugno</div><div class="dtitle">✈️ Arrivo — Benvenuti in Val di Fassa</div></div>
+    <div class="ddate">Solo trasferimento</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 ARRIVO / VIAGGIO</span>
+      <p><strong>12:35</strong> Atterraggio Verona VRN. Bagagli ~20 min. <strong>13:10–13:30</strong> Ritiro auto a noleggio (seggiolini già prenotati con largo anticipo). <strong>13:30</strong> Pranzo leggero all'aeroporto o all'area di servizio <em>Caneva</em> sulla A22 (scelta pratica con bimbi piccoli).</p>
+      <p style="margin-top:7px"><strong>Percorso:</strong> A22 Nord → uscita <strong>Egna-Ora / Neumarkt</strong> → SS48 Val di Fiemme → Val di Fassa → Canazei.</p>
+      <div class="chips">
+        <span class="chip cb">🚗 ~110 km · ~1h50min senza traffico</span>
+        <span class="chip co">⚠️ Venerdì pomeriggio: traffico estivo possibile +30 min</span>
+        <span class="chip cg">🛣️ Pedaggi A22: ~€11 Verona–Egna</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel p">🌤️ POMERIGGIO</span>
+      <p><strong>15:30–16:00</strong> Arrivo Hotel Villa Emma, Canazei. Check-in, sistemazione, prime esplorazioni. <strong>17:00</strong> Breve passeggiata nel centro di Canazei: piazza, fontane, prima gelateria! I bimbi si sgranchiscono le gambe dopo il viaggio.</p>
+      <div class="chips">
+        <span class="chip cg">✅ Giulio a piedi — centro paese pianeggiante</span>
+        <span class="chip cg">🅿️ Parcheggio hotel incluso</span>
+        <span class="chip cg">😊 Difficoltà: Nessuna</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel s">🌙 SERA</span>
+      <p><strong>19:00</strong> Aperitivo al bar in piazza. <strong>20:00</strong> Prima cena in hotel. Tramonto sulle Dolomiti dal balcone — l'<em>enrosadira</em> vi accoglie!</p>
+    </div>
+    <div class="tipbox">💡 <strong>Tip per i bimbi:</strong> Porta sticker book e audiolibri per il viaggio in auto. Giulio probabilmente dormirà — ottimo! Fermata bagno obbligatoria prima di uscire dall'autostrada a Egna. Non programmare nulla per questo pomeriggio: serve solo assestamento.</div>
+    <div class="rainbox">☔ <strong>Piano B pioggia:</strong> Nessun problema, è solo un giorno di trasferimento.</div>
+  </div>
+</div>
+
+<!-- G2 -->
+<div class="dc">
+  <div class="dc-hdr">
+    <div><div class="dnum">Giorno 2 — Sabato 20 Giugno</div><div class="dtitle">🌈 Lago di Carezza + Vigo di Fassa</div></div>
+    <div class="ddate">Giro corto · Relax</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 MATTINA</span>
+      <p><strong>8:30</strong> Colazione in hotel. <strong>9:30</strong> Partenza per il <strong>Lago di Carezza</strong> (Karersee): ~20 km, ~25 min verso nord sulla SS48 poi SS241. <strong>10:00</strong> Arrivo: passeggiata circolare (~1,3 km, 35–45 min) attorno al lago. Colori smeraldo, riflesso del Catinaccio — uno dei laghi più fotografati al mondo. <strong>11:00</strong> Merenda al bar vicino al lago.</p>
+      <div class="chips">
+        <span class="chip cg">✅ Giulio a piedi OK — percorso facile su ghiaia compatta</span>
+        <span class="chip cg">😊 Difficoltà: Facilissimo</span>
+        <span class="chip cb">⏱️ 1–1,5h al lago</span>
+        <span class="chip co">🅿️ Parcheggio pagamento: ~€3/ora</span>
+        <span class="chip cg">🎟️ Accesso area gratuito</span>
+        <span class="chip co">⚠️ Sabato mattina: arrivare ENTRO le 10</span>
+      </div>
+      <p style="margin-top:7px"><strong>11:30</strong> Breve visita a <strong>Vigo di Fassa</strong> (~10 min): borgo caratteristico ladino, bella chiesa, fontana, negozietti.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel l">🍽️ PRANZO — Ristorante tipico a Vigo di Fassa</span>
+      <p><strong>12:30</strong> Pranzo al <strong>Ristorante Catinaccio</strong> o simile. Specialità: <em>canederli in brodo, speck e grana, polenta con funghi, strudel di mele</em>.</p>
+      <div class="chips">
+        <span class="chip co">💶 ~€30–40 a coppia · menù bambini ~€8–10</span>
+        <span class="chip cb">📞 Prenotare il sabato</span>
+        <span class="chip cg">✅ Molto family-friendly</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel p">🌤️ POMERIGGIO</span>
+      <p><strong>14:30</strong> Rientro Canazei (~25 min). <strong>Parco giochi di Canazei</strong>: Federico gioca, Giulio si diverte. <strong>16:30–17:30</strong> Sonnellino/riposo di Giulio. <strong>18:00</strong> Passeggiata sul lungotorrente.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel s">🌙 SERA</span>
+      <p><strong>20:00</strong> Cena in hotel.</p>
+    </div>
+    <div class="tipbox">💡 <strong>Tip:</strong> Federico amerà cercare i pesci nell'acqua cristallina. Giulio cammina bene su questo percorso — pianeggiante e stimolante. Arriva prestissimo: il lago è bellissimo MA affollato il sabato mattina.</div>
+    <div class="rainbox">☔ <strong>Piano B pioggia:</strong> <strong>Museo Ladin</strong> di Vigo di Fassa, oppure visita a <strong>Moena</strong> (borgo delle fate, negozi coperti).</div>
+  </div>
+</div>
+
+<!-- G3 -->
+<div class="dc">
+  <div class="dc-hdr">
+    <div><div class="dnum">Giorno 3 — Domenica 21 Giugno</div><div class="dtitle">🚡 Ortisei & Seceda — La Vista Iconica</div></div>
+    <div class="ddate">Giornata lunga · Funivia</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 MATTINA PRESTO</span>
+      <p><strong>7:45</strong> Colazione presto. <strong>8:30</strong> Partenza per <strong>Ortisei</strong>: ~45 km, ~50 min via <strong>SS242 Passo Sella</strong> (2244m). Fermata di 10 min al Passo Sella per la prima foto!</p>
+      <p style="margin-top:7px"><strong>9:30</strong> Arrivo Ortisei. Parcheggio: <strong>Parkhaus Survisc</strong> (coperto, ~€2/ora). <strong>9:45</strong> Funivia <strong>Seceda</strong>: prima tappa gondola chiusa Ortisei→Furnes, poi seggiovia Furnes→Seceda (2519m) — per la seggiovia Giulio in zaino bimbo o in braccio.</p>
+      <div class="chips">
+        <span class="chip co">🎟️ A/R adulti ~€32 · bambini 5–14 ~€18 · under 4 gratis</span>
+        <span class="chip cg">✅ Gondola: zaino bimbo in cabina (smontalo all'imbarco)</span>
+        <span class="chip co">⚠️ Seggiovia: Giulio in zaino bimbo o in braccio</span>
+        <span class="chip cb">⏱️ 20 min salita totale</span>
+        <span class="chip cb">🌡️ In quota: fino a 8–12°C con vento — giacche!</span>
+      </div>
+      <p style="margin-top:7px"><strong>10:15–12:30</strong> Altopiano Seceda: le <strong>Odle/Geisler</strong> emergono dai prati verdi come cattedrali. Passeggiata pianeggiante 1–2 km. Mucche, marmotte, fiori di giugno. Giulio cammina bene sui prati — zaino bimbo pronto se si stanca. Federico cercherà le marmotte col binocolo!</p>
+      <div class="chips">
+        <span class="chip co">⚠️ Zaino bimbo consigliato — Giulio cammina ma si stanca sul terreno alpino</span>
+        <span class="chip cg">😊 Difficoltà: Facile</span>
+        <span class="chip cr">📞 Domenica: prenotare RIFUGIO con almeno 2 settimane di anticipo!</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel l">🍽️ PRANZO IN QUOTA — Rifugio Fermeda/Seceda (2518m)</span>
+      <p>Pranzo al <strong>Rifugio Fermeda</strong> o <strong>Rifugio Seceda</strong>: <em>zuppa d'orzo, speck e formaggio di malga, Kaiserschmarrn, Apfelstrudel caldo</em>. Tavoli all'aperto con vista sulle Odle.</p>
+      <div class="chips">
+        <span class="chip co">💶 ~€20–28 a persona · bambini ~€10</span>
+        <span class="chip cr">📞 PRENOTARE — domenica è pieno</span>
+        <span class="chip cg">✅ Ottimo per bambini</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel p">🌤️ POMERIGGIO</span>
+      <p><strong>14:00</strong> Discesa con gondola (prima dei temporali!). <strong>14:30</strong> Visita ad Ortisei: negozi di intaglio del legno artigianale, carrozze tipiche. <strong>Gelateria Rino</strong> — famosa in tutta la Val Gardena. <strong>16:00</strong> Rientro Canazei (~50 min).</p>
+      <div class="chips">
+        <span class="chip co">⚠️ Temporali: scendere dalla quota ENTRO le 13:30–14:00</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel s">🌙 SERA</span>
+      <p><strong>20:00</strong> Cena in hotel.</p>
+    </div>
+    <div class="tipbox">💡 <strong>Tip:</strong> Zaino bimbo Deuter in spalla su Seceda — Giulio camminerà un po' poi vorrà salire. Federico (5 anni) cammina bene. Binocolo per le marmotte. Sistema a cipolla: 3 strati anche a giugno.</div>
+    <div class="rainbox">☔ <strong>Piano B pioggia:</strong> Centro storico di Ortisei, laboratorio per bambini di scultura in legno (~€12 bimbi). Sposta Seceda a un giorno migliore.</div>
+  </div>
+</div>
+
+<!-- G4 -->
+<div class="dc">
+  <div class="dc-hdr">
+    <div><div class="dnum">Giorno 4 — Lunedì 22 Giugno</div><div class="dtitle">🏔️ Passo Pordoi + Lago Fedaia (Sass Pordoi: decide in loco)</div></div>
+    <div class="ddate">Giro medio · Due mete</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 MATTINA</span>
+      <p><strong>8:30</strong> Colazione. <strong>9:15</strong> Partenza per <strong>Passo Pordoi</strong> (2239m): soli 15 km da Canazei, ~20 min via SS641 — 9 km di tornanti panoramici spettacolari. <strong>9:35</strong> Arrivo al passo.</p>
+      <p style="margin-top:7px"><strong>L'obiettivo della giornata è il Passo Pordoi stesso</strong>: a 2239m la vista sulla Marmolada e il Gruppo del Sella è già straordinaria, il rifugio con terrazza è bellissimo, e Giulio è a un'altitudine confortevole. Vale la giornata da solo.</p>
+      <div class="chips">
+        <span class="chip cg">🅿️ Parcheggio al passo: gratuito e ampio</span>
+        <span class="chip cg">✅ 2239m: altitudine comoda per Giulio</span>
+        <span class="chip cg">✅ Giulio a piedi OK attorno al passo</span>
+      </div>
+    </div>
+    <div class="optbox">
+      ⚡ <strong>Funivia Sass Pordoi (2950m) — decisione quel mattino, non prima:</strong><br><br>
+      Se Giulio è riposato, ha dormito bene e si mostra sereno e attivo al passo → <strong>vale la pena salire</strong>: 45–60 minuti in cima, vista a 360° sulle Dolomiti, poi si scende.<br><br>
+      Se invece ha dormito male, è già irrequieto o stanco → <strong>il passo da solo è più che sufficiente</strong>: nessun rimpianto, nessuna forzatura.<br><br>
+      <strong>Non è una tappa fissa dell'itinerario: è un bonus da decidere sul posto.</strong>
+      <div class="chips" style="margin-top:10px">
+        <span class="chip co">🎟️ A/R adulti ~€23 · bambini 5–14 ~€14 · under 4 gratis</span>
+        <span class="chip cb">⏱️ 7 min di salita rapida (711m in cabinovia)</span>
+        <span class="chip co">🌡️ In cima: 10–15°C con vento — giacche pesanti per tutti</span>
+        <span class="chip co">⚠️ Terreno roccioso in cima — zaino bimbo per Giulio</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel l">🍽️ PRANZO al Passo Pordoi</span>
+      <p><strong>12:15–12:30</strong> Pranzo al <strong>Rifugio Passo Pordoi</strong> o <strong>Ristorante Savoy</strong> (terrazza con vista Marmolada): <em>goulash tirolese, spatzle al burro di malga, canederli, torte tirolesi</em>.</p>
+      <div class="chips">
+        <span class="chip co">💶 ~€18–25 a persona</span>
+        <span class="chip cg">✅ Family-friendly, seggioloni disponibili</span>
+        <span class="chip cg">❌ Prenotazione non necessaria (lunedì)</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel p">🌤️ POMERIGGIO</span>
+      <p><strong>14:00</strong> Drive verso il <strong>Lago Fedaia</strong> e la <strong>Marmolada</strong>: ~18 km dal passo, ~25 min. <strong>14:30</strong> Lago Fedaia (2054m): lago artificiale turchese ai piedi del ghiacciaio. Passeggiata breve sul bordo (~20 min, pianeggiante).</p>
+      <div class="chips">
+        <span class="chip cg">✅ Giulio a piedi OK — percorso pianeggiante</span>
+        <span class="chip cg">😊 Difficoltà: Facilissimo</span>
+        <span class="chip cg">🅿️ Ampio e gratuito</span>
+        <span class="chip cb">⏱️ 45 min al lago</span>
+      </div>
+      <p style="margin-top:7px"><strong>15:30</strong> Rientro Canazei (~30 min). Pomeriggio libero.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel s">🌙 SERA</span>
+      <p><strong>19:30</strong> Aperitivo in piazza. <strong>20:00</strong> Cena in hotel.</p>
+    </div>
+    <div class="tipbox">💡 <strong>Tip:</strong> L'obiettivo del giorno è il Passo Pordoi — già spettacolare a 2239m. Il Sass Pordoi è un bonus: valutalo quella mattina osservando Giulio. Se sale, porta il zaino bimbo Deuter e giacca pesante per tutti. Se non sale, goditi il passo e il Lago Fedaia senza pensieri.</div>
+    <div class="rainbox">☔ <strong>Piano B pioggia:</strong> Sposta a un giorno migliore. Usa questa giornata per: visita al <strong>borgo di Moena</strong> o <strong>Museo Geologico delle Dolomiti</strong> a Predazzo (20 min, €6 adulti, ottimo per Federico).</div>
+  </div>
+</div>
+
+<!-- G5 -->
+<div class="dc">
+  <div class="dc-hdr">
+    <div><div class="dnum">Giorno 5 — Martedì 23 Giugno</div><div class="dtitle">🌸 Alpe di Siusi — Il Paradiso delle Famiglie</div></div>
+    <div class="ddate">Giornata lunga · Partenza prestissimo</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 MATTINA PRESTO (fondamentale!)</span>
+      <p><strong>7:30</strong> Colazione presto. <strong>8:15</strong> Partenza verso l'<strong>Alpe di Siusi</strong>: ~55 km, ~1h10 via Ortisei → Castelrotto → Seis. <strong>⚠️ In estate l'accesso in auto è vietato</strong> — parcheggia alla stazione della <strong>Seiser Alm Bahn</strong> (Seis) e prendi la gondola.</p>
+      <p style="margin-top:7px"><strong>9:30</strong> Gondola <strong>Seiser Alm Bahn</strong>: 15 min fino a Compatsch (1850m). <strong>9:50</strong> Alpe di Siusi: l'alpeggio più grande d'Europa! Prati fioriti, mucche, vista su Sassolungo.</p>
+      <div class="chips">
+        <span class="chip co">🎟️ A/R adulti ~€22 · bambini 4–15 ~€14 · under 4 gratis</span>
+        <span class="chip cg">✅ Percorso perfetto per Giulio a piedi — sterrato largo e pianeggiante</span>
+        <span class="chip co">⚠️ Partire prestissimo: affollata dopo le 10:30</span>
+      </div>
+      <p style="margin-top:7px"><strong>10:00–12:00</strong> Passeggiata verso la <strong>Malga Sanon</strong> (~20–25 min da Compatsch): mucche, capre, asinelli. Prati di ranuncoli e margherite a giugno. Giulio cammina benissimo su questi percorsi — zaino bimbo Deuter in spalla come riserva per il ritorno.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel l">🍽️ PRANZO in Malga</span>
+      <p><strong>12:30</strong> Pranzo alla <strong>Malga Sanon</strong> o <strong>Malga Saltria</strong>: <em>formaggi freschi di malga, speck, burro di montagna, pane di segale, latte appena munto</em>.</p>
+      <div class="chips">
+        <span class="chip cg">💶 ~€14–18 a persona · bambini ~€7</span>
+        <span class="chip cg">❌ No prenotazione</span>
+        <span class="chip cg">✅ Perfetto con bimbi piccoli</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel p">🌤️ POMERIGGIO — Discesa entro le 14:30!</span>
+      <p><strong>14:00</strong> Inizia la discesa con la gondola entro le 14:30. <strong>15:30</strong> Rientro Canazei. Pomeriggio libero, sonnellino Giulio. <strong>17:00</strong> Merenda tipica: <em>Krapfen</em> da una panetteria locale.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel s">🌙 SERA — Prima cena fuori</span>
+      <p><strong>20:00</strong> <strong>Cena speciale fuori</strong> al <strong>Ristorante El Pael</strong> o <strong>Hotel Tyrol</strong>: <em>Cjarsons</em> ladini, goulash di cervo, <em>Strauben</em> (frittelle dolci).</p>
+      <div class="chips">
+        <span class="chip co">💶 ~€35–45 a coppia + bambini ~€12</span>
+        <span class="chip cr">📞 Prenotare con una settimana di anticipo!</span>
+      </div>
+    </div>
+    <div class="tipbox">💡 <strong>Tip:</strong> L'Alpe di Siusi è perfetta per Giulio — prati larghi e pianeggianti dove cammina senza difficoltà per lunghi tratti. Zaino bimbo Deuter in spalla quando si stanca (tipicamente nel tratto di ritorno). Porta pallone e bolle di sapone. Crema SPF50+ — a 2000m scotta tantissimo.</div>
+    <div class="rainbox">☔ <strong>Piano B pioggia:</strong> <strong>Aquafun Cavalese</strong> (piscina con scivoli, 30 min — €15–20 pp), oppure fattoria didattica Val di Fiemme, oppure laboratorio intaglio legno a Ortisei.</div>
+  </div>
+</div>
+
+<!-- G6 -->
+<div class="dc">
+  <div class="dc-hdr">
+    <div><div class="dnum">Giorno 6 — Mercoledì 24 Giugno</div><div class="dtitle">🐄 Val di Fassa Locale · Malga Contrin</div></div>
+    <div class="ddate">Giornata rilassante · Ultima sera</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 MATTINA</span>
+      <p><strong>9:00</strong> Colazione tranquilla. <strong>10:00</strong> Passeggiata verso la <strong>Malga Contrin</strong>: 5 min in auto da Canazei, poi sentiero di ~3 km A/R nel bosco. Ruscelli, farfalle, mucche, capre. Malga autentica a 1820m con formaggi in vendita.</p>
+      <div class="chips">
+        <span class="chip cg">✅ Giulio a piedi OK (sentiero sterrato largo)</span>
+        <span class="chip cg">😊 Difficoltà: Facile</span>
+        <span class="chip cb">⏱️ 45–60 min andata + ritorno</span>
+        <span class="chip cg">🅿️ Parcheggio Alba di Canazei: gratuito</span>
+        <span class="chip co">⚠️ Zaino bimbo Deuter per il ritorno — Giulio si stancherà</span>
+      </div>
+    </div>
+    <div class="tblk">
+      <span class="tlabel l">🍽️ PRANZO</span>
+      <p><strong>12:30</strong> Pranzo alla Malga Contrin o picnic nei prati con formaggi freschi comprati alla malga.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel p">🌤️ POMERIGGIO</span>
+      <p><strong>14:30</strong> Rientro Canazei. <strong>Parco giochi comunale</strong>, gelato in piazza, shopping souvenir. <strong>16:30</strong> Sonnellino/riposo Giulio.</p>
+    </div>
+    <div class="tblk">
+      <span class="tlabel s">🌙 SERA — Ultima notte: cena memorabile</span>
+      <p><strong>19:30</strong> Aperitivo in piazza — ultimo tramonto sulle Dolomiti. <strong>20:30</strong> <strong>Cena di chiusura</strong> al migliore ristorante non ancora provato: <em>Cjarsons, tagliatelle ai porcini, goulash di cervo, Kaiserschmarrn</em>. Vino Teroldego per i grandi.</p>
+      <div class="chips">
+        <span class="chip co">💶 €40–55 a coppia</span>
+        <span class="chip cr">📞 Prenotare!</span>
+      </div>
+    </div>
+    <div class="tipbox">💡 <strong>Tip:</strong> Giornata volutamente leggera. La Val Contrin è perfetta: breve, con animali, nel bosco. Il ritorno dei 1,5 km Giulio lo farà in buona parte nel zaino Deuter — mettilo in spalla già a metà strada senza aspettare che si lamenti. Prepara le valigie dopo cena!</div>
+    <div class="rainbox">☔ <strong>Piano B pioggia:</strong> <strong>Museo della Val di Fassa</strong> a Vigo (laboratorio per bambini), oppure <strong>QC Terme Dolomiti</strong> a Pozza di Fassa (€40–60 adulti).</div>
+  </div>
+</div>
+
+<!-- G7 -->
+<div class="dc">
+  <div class="dc-hdr dep">
+    <div><div class="dnum">Giorno 7 — Giovedì 25 Giugno</div><div class="dtitle">✈️ Partenza per Verona — Volo 13:10</div></div>
+    <div class="ddate">Solo trasferimento</div>
+  </div>
+  <div class="db">
+    <div class="tblk">
+      <span class="tlabel m">🌅 MATTINA</span>
+      <p><strong>7:00</strong> Ultima colazione. <strong>8:00</strong> Check-out e carico bagagli. <strong>8:30 — PARTENZA TASSATIVA</strong> per Verona.</p>
+      <div class="chips">
+        <span class="chip cr">⚠️ Volo 13:10 — arrivare in aeroporto ENTRO le 11:15</span>
+        <span class="chip co">🚗 ~110 km · ~1h50 + possibile traffico mattutino</span>
+        <span class="chip cr">⏰ Non partire oltre le 9:00 in nessun caso</span>
+      </div>
+      <p style="margin-top:7px"><strong>10:15–10:30</strong> Arrivo aeroporto Verona. Riconsegna auto (20–30 min). Check-in online già fatto la sera prima. <strong>13:10</strong> Decollo.</p>
+    </div>
+    <div class="tipbox">💡 <strong>Tip:</strong> Non programmare nulla la mattina della partenza. Fai il check-in online la sera del 24. Tieni snack e tablet in borsa a mano per i bimbi.</div>
+  </div>
+</div>
+</div><!-- /iti -->
+
+<!-- ===== MAPPA ===== -->
+<div id="map" class="sec">
+<div class="stitle">🗺️ Mappa Logica degli Spostamenti</div>
+<div class="infobox ib-blue"><strong>📍 Base fissa: Canazei (TN)</strong> — Tutto raggiungibile in max 1h15. Si parte e si torna ogni sera.</div>
+<table>
+  <tr><th>Destinazione</th><th>km</th><th>Tempo</th><th>Strada</th><th>Giorno</th></tr>
+  <tr><td>🟢 <strong>Passo Pordoi</strong></td><td>15 km</td><td>~20 min</td><td>SS641 (tornanti)</td><td>Giorno 4</td></tr>
+  <tr><td>🟡 <strong>Sass Pordoi (opzionale)</strong></td><td>15 km + funivia</td><td>~20 min + 7 min</td><td>SS641 → cabinovia</td><td>Giorno 4 (decide in loco)</td></tr>
+  <tr><td>🟢 <strong>Lago Fedaia / Marmolada</strong></td><td>26 km</td><td>~35 min</td><td>SS641 oltre Pordoi</td><td>Giorno 4</td></tr>
+  <tr><td>🟢 <strong>Lago di Carezza</strong></td><td>20 km</td><td>~25 min</td><td>SS48 + SS241</td><td>Giorno 2</td></tr>
+  <tr><td>🟢 <strong>Vigo di Fassa</strong></td><td>12 km</td><td>~15 min</td><td>SS48</td><td>Giorno 2</td></tr>
+  <tr><td>🟢 <strong>Alba di Canazei (Malga Contrin)</strong></td><td>3 km</td><td>~5 min</td><td>SS641</td><td>Giorno 6</td></tr>
+  <tr><td>🟡 <strong>Ortisei / Seceda</strong></td><td>45 km</td><td>~50–55 min</td><td>SS242 via Passo Sella</td><td>Giorno 3</td></tr>
+  <tr><td>🟡 <strong>Alpe di Siusi (Seis)</strong></td><td>55 km</td><td>~1h 10min</td><td>Via Ortisei → Castelrotto</td><td>Giorno 5</td></tr>
+  <tr><td>🔴 <strong>Aeroporto Verona</strong></td><td>110 km</td><td>~1h 45–50</td><td>SS48 → A22 sud</td><td>Giorni 1 e 7</td></tr>
+</table>
+<div class="infobox ib-orange" style="margin-top:14px">
+  <strong>⚠️ Note strade:</strong><br>
+  • <strong>SS242 Passo Sella</strong>: bellissima ma tornanti stretti — bimbi soggetti al mal di macchina: finestre aperte e pause.<br>
+  • <strong>SS641 Passo Pordoi</strong>: 9 km, ~27 tornanti, panorami incredibili.<br>
+  • <strong>Alpe di Siusi in estate: car-free</strong> — parcheggia a Seis e prendi la gondola.<br>
+  • <strong>Pedaggi A22</strong>: Verona–Egna A/R ~€22. Prepara Viacard o contante.<br>
+  • <strong>Segnale GPS scarso</strong> nei valloni — scarica mappe offline prima di partire.
+</div>
+</div>
+
+<!-- ===== TOP 10 ===== -->
+<div id="top" class="sec">
+<div class="stitle">⭐ Top 10 Attività Imperdibili</div>
+<div class="grid">
+  <div class="card"><h3><span class="rk">1</span>Passo Pordoi + Sass Pordoi ⚡</h3><p>Il Passo (2239m) è l'obiettivo fisso — già spettacolare. La funivia fino a 2950m è un bonus da decidere in loco in base a Giulio. <em>(opzionale — decide quel mattino)</em></p><div class="chips"><span class="chip co">🎟️ Funivia ~€23 adulti</span><span class="chip cg">G. 4</span></div></div>
+  <div class="card"><h3><span class="rk">2</span>Seceda (Ortisei)</h3><p>La foto iconica delle Dolomiti: le Odle che emergono dai prati verdi a 2519m. Indimenticabile. Giulio cammina sui prati, zaino Deuter come riserva.</p><div class="chips"><span class="chip co">🎟️ ~€32 adulti</span><span class="chip cb">⏱️ 3-4h</span><span class="chip cg">G. 3</span></div></div>
+  <div class="card"><h3><span class="rk">3</span>Lago di Carezza</h3><p>Il "lago arcobaleno" — uno dei più belli del mondo. Percorso facilissimo, Giulio cammina bene, magia garantita per i bambini.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span><span class="chip cb">⏱️ 1h</span><span class="chip cg">G. 2</span></div></div>
+  <div class="card"><h3><span class="rk">4</span>Alpe di Siusi + Malga</h3><p>L'altopiano più grande d'Europa. Percorso perfetto per Giulio a piedi — prati larghi, animali, zaino Deuter per il rientro. Il paradiso per famiglie.</p><div class="chips"><span class="chip co">🎟️ ~€22 gondola</span><span class="chip cb">⏱️ 4-5h</span><span class="chip cg">G. 5</span></div></div>
+  <div class="card"><h3><span class="rk">5</span>Lago Fedaia + Marmolada</h3><p>Lago turchese ai piedi del ghiacciaio più grande delle Dolomiti. Giulio cammina sul bordo senza problemi. Gratuito, facilissimo, spettacolare.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span><span class="chip cb">⏱️ 45min</span><span class="chip cg">G. 4</span></div></div>
+  <div class="card"><h3><span class="rk">6</span>Passo Sella in auto</h3><p>La guida verso Ortisei via Passo Sella (2244m) è un'esperienza: Sassolungo e Sassopiatto da brivido. Fermata 10 min al passo per la foto di famiglia.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span><span class="chip cg">G. 3</span></div></div>
+  <div class="card"><h3><span class="rk">7</span>Malga Contrin</h3><p>Passeggiata facile nel bosco con arrivo a malga autentica: animali, formaggi freschi. Giulio cammina all'andata, zaino Deuter al ritorno.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span><span class="chip cb">⏱️ 2-3h</span><span class="chip cg">G. 6</span></div></div>
+  <div class="card"><h3><span class="rk">8</span>Ortisei — borgo dell'intaglio</h3><p>Villaggio tirolese caratteristico: intaglio del legno, carrozze, architettura. Ottimo per gelati e souvenir autentici dopo Seceda.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span><span class="chip cb">⏱️ 1-2h</span><span class="chip cg">G. 3</span></div></div>
+  <div class="card"><h3><span class="rk">9</span>Passo Pordoi in auto</h3><p>9 km di tornanti epici fino a 2239m: i bimbi contano le curve. Punto base per il rifugio e il panorama sulla Marmolada.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span><span class="chip cg">G. 4</span></div></div>
+  <div class="card"><h3><span class="rk">10</span>Enrosadira a Canazei</h3><p>Rocce dolomitiche rosa/arancio al tramonto (ore 20–21 a giugno). Esci in piazza 30 min prima: un momento di magia pura ogni sera, gratis.</p><div class="chips"><span class="chip cg">🎟️ Gratis</span></div></div>
+</div>
+</div>
+
+<!-- ===== RISTORANTI ===== -->
+<div id="rst" class="sec">
+<div class="stitle">🍽️ Top 10 Ristoranti & Rifugi Family-Friendly</div>
+<table>
+  <tr><th>#</th><th>Nome · Dove</th><th>Cosa ordinare</th><th>€</th><th>Prenotaz.</th><th>Bimbi</th></tr>
+  <tr><td><strong>1</strong></td><td><strong>Rifugio Fermeda / Seceda</strong><br><small>Seceda, 2518m</small></td><td>Zuppa d'orzo, Kaiserschmarrn, Apfelstrudel, speck e formaggio di malga</td><td>€€€<br><small>20–28 pp</small></td><td>⭐⭐<br><small>Obbligatoria domenica</small></td><td>✅ Eccellente</td></tr>
+  <tr><td><strong>2</strong></td><td><strong>Malga Sanon / Saltria</strong><br><small>Alpe di Siusi</small></td><td>Formaggi freschi, speck, burro di malga, pane di segale, latte fresco</td><td>€€<br><small>14–18 pp</small></td><td>❌ No</td><td>✅ Perfetto</td></tr>
+  <tr><td><strong>3</strong></td><td><strong>Ristorante El Pael</strong><br><small>Canazei centro</small></td><td>Cjarsons ladini, goulash di cervo, polenta con funghi, Strauben con mirtilli</td><td>€€€<br><small>32–42 pp</small></td><td>⭐⭐<br><small>Sempre consigliata</small></td><td>✅ Buono</td></tr>
+  <tr><td><strong>4</strong></td><td><strong>Rifugio Passo Pordoi</strong><br><small>Passo Pordoi, 2239m</small></td><td>Goulash tirolese, spatzle al burro, canederli in brodo, torta al cioccolato</td><td>€€<br><small>16–23 pp</small></td><td>❌ No (lunedì)</td><td>✅ Molto buono</td></tr>
+  <tr><td><strong>5</strong></td><td><strong>Ristorante Catinaccio</strong><br><small>Vigo di Fassa</small></td><td>Canederli in brodo, polenta con spezzatino, dolci ladini, strudel di mele</td><td>€€<br><small>22–30 pp</small></td><td>⭐ Sì il sabato</td><td>✅ Eccellente</td></tr>
+  <tr><td><strong>6</strong></td><td><strong>Ristorante Hotel Tyrol</strong><br><small>Canazei</small></td><td>Tagliatelle ai funghi porcini, costine con crauti, grostl di patate e speck</td><td>€€€<br><small>28–38 pp</small></td><td>⭐ Consigliata sera</td><td>✅ Buono</td></tr>
+  <tr><td><strong>7</strong></td><td><strong>Malga Contrin</strong><br><small>Alba di Canazei</small></td><td>Tosela grigliata, formaggi freschi, speck, pane fatto in casa, miele di montagna</td><td>€€<br><small>15–20 pp</small></td><td>❌ No</td><td>✅ Perfetto bimbi</td></tr>
+  <tr><td><strong>8</strong></td><td><strong>Gelateria Rino</strong><br><small>Ortisei centro</small></td><td>Crema al burro tirolese, yogurt di malga, frutti di bosco alpini</td><td>€<br><small>3–5 pp</small></td><td>❌</td><td>✅ I bimbi adorano!</td></tr>
+  <tr><td><strong>9</strong></td><td><strong>Panetteria / Bäckerei locale</strong><br><small>Canazei / Ortisei</small></td><td>Krapfen, strudel caldo, Brezel al sale, pane Vinschgerl</td><td>€<br><small>2–4 pp</small></td><td>❌</td><td>✅ Merenda perfetta</td></tr>
+  <tr><td><strong>10</strong></td><td><strong>QC Terme / Rist. Hotel Dolomiti</strong><br><small>Pozza di Fassa / Canazei</small></td><td>Menu degustazione fassano, formaggi d'alpe, vino Teroldego, dolci tipici</td><td>€€€€<br><small>42–55 pp</small></td><td>⭐⭐ Sempre</td><td>✅ Buono</td></tr>
+</table>
+<div class="infobox ib-green" style="margin-top:14px">
+  <strong>🍴 Specialità locali da non perdere:</strong><br>
+  <span style="display:inline-block;margin-top:6px;line-height:2">
+    <strong>Cjarsons</strong> — ravioli ladini ripieni di ricotta, spinaci e uvetta &nbsp;|&nbsp;
+    <strong>Canederli in brodo</strong> — gnocchi di pane e speck &nbsp;|&nbsp;
+    <strong>Kaiserschmarrn</strong> — frittata dolce sbriciolata (bambini adorano!) &nbsp;|&nbsp;
+    <strong>Strauben</strong> — frittelle a spirale con mirtilli e zucchero a velo &nbsp;|&nbsp;
+    <strong>Grostl</strong> — padellata di patate, cipolle, speck e uovo &nbsp;|&nbsp;
+    <strong>Speck Alto Adige IGP</strong> &nbsp;|&nbsp;
+    <strong>Strudel di mele caldo</strong> con vanillesauce &nbsp;|&nbsp;
+    <strong>Formaggi di malga</strong> — comprare direttamente alla malga
+  </span>
+</div>
+</div>
+
+<!-- ===== PIANO B ===== -->
+<div id="pib" class="sec">
+<div class="stitle">🌧️ Piano B — Cosa Fare se Piove</div>
+<div class="infobox ib-orange">⛈️ <strong>Regola d'oro Dolomiti:</strong> Temporali pomeridiani quasi quotidiani a giugno (14:00–17:00). Fai sempre le attività in quota di <strong>mattina</strong> e rientra entro le 13:30.</div>
+<table style="margin-top:12px">
+  <tr><th>Attività</th><th>Dove</th><th>Adatto bimbi</th><th>Durata</th><th>Costo</th></tr>
+  <tr><td>🏊 <strong>Aquafun Cavalese</strong> — piscina con scivoli</td><td>Cavalese (30 min)</td><td>✅ Perfetto</td><td>Mezza giornata</td><td>~€15–20 pp</td></tr>
+  <tr><td>🪵 <strong>Laboratorio intaglio legno</strong></td><td>Ortisei (50 min)</td><td>✅ Da 4 anni</td><td>1,5–2h</td><td>~€12 bimbi</td></tr>
+  <tr><td>🏛️ <strong>Museo Ladin</strong> (storia ladina)</td><td>Vigo di Fassa (15 min)</td><td>✅ Da 5 anni</td><td>2h</td><td>~€6 adulti</td></tr>
+  <tr><td>🔬 <strong>Museo Geologico Dolomiti</strong></td><td>Predazzo (20 min)</td><td>✅ Da 5 anni</td><td>1,5h</td><td>~€5 adulti</td></tr>
+  <tr><td>🐄 <strong>Fattoria didattica</strong></td><td>Val di Fiemme (30 min)</td><td>✅ Perfetto</td><td>2h</td><td>~€8–12 bimbi</td></tr>
+  <tr><td>🌿 <strong>QC Terme Dolomiti</strong></td><td>Pozza di Fassa (15 min)</td><td>✅ Area bimbi</td><td>3–4h</td><td>~€45 adulti</td></tr>
+  <tr><td>🛍️ <strong>Moena "Paese delle Fate"</strong></td><td>Moena (15 min)</td><td>✅ Buono</td><td>1,5h</td><td>Gratis</td></tr>
+  <tr><td>🏰 <strong>Castel Thun</strong></td><td>Val di Non (50 min)</td><td>✅ Da 5 anni</td><td>2–3h</td><td>~€9 adulti</td></tr>
+  <tr><td>🛒 <strong>Centro storico Bolzano</strong></td><td>Bolzano (1h 15)</td><td>✅ OK</td><td>Mezza giornata</td><td>Variabile</td></tr>
+  <tr><td>🎨 <strong>Laboratorio creativo hotel</strong></td><td>Canazei</td><td>✅ Perfetto</td><td>1–2h</td><td>Gratis</td></tr>
+</table>
+</div>
+
+<!-- ===== BUDGET ===== -->
+<div id="bud" class="sec">
+<div class="stitle">💰 Budget Indicativo Totale</div>
+<div class="infobox ib-blue">ℹ️ Esclusi hotel (pensione completa), voli e auto a noleggio. Solo spese extra in loco.</div>
+<table style="margin-top:12px">
+  <tr><th>Voce di Spesa</th><th>Dettaglio</th><th>Stima €</th></tr>
+  <tr><td>🚡 <strong>Funivia Sass Pordoi (se si sale)</strong></td><td>2 adulti €23 + Federico €14 + Giulio gratis</td><td>~60</td></tr>
+  <tr><td>🚡 <strong>Funivia Seceda</strong></td><td>2 adulti €32 + Federico €18 + Giulio gratis</td><td>~82</td></tr>
+  <tr><td>🚡 <strong>Seiser Alm Bahn</strong></td><td>2 adulti €22 + Federico €14 + Giulio gratis</td><td>~58</td></tr>
+  <tr><td>🅿️ <strong>Parcheggi</strong></td><td>Carezza €6, Ortisei €14, Seis €10 + vari</td><td>~35</td></tr>
+  <tr><td>⛽ <strong>Carburante</strong></td><td>~800 km tot. stimati</td><td>~100</td></tr>
+  <tr><td>🛣️ <strong>Pedaggi A22</strong></td><td>Verona–Egna A/R</td><td>~25</td></tr>
+  <tr><td>🍽️ <strong>3 pranzi tipici fuori</strong></td><td>Vigo di Fassa (G2), Rifugio Seceda (G3), Passo Pordoi (G4)</td><td>~190</td></tr>
+  <tr><td>🍽️ <strong>2 cene tipiche fuori</strong></td><td>El Pael (G5), Ristorante finale (G6)</td><td>~175</td></tr>
+  <tr><td>🍦 <strong>Gelati, merende, caffè</strong></td><td>~€10/die × 6 giorni</td><td>~60</td></tr>
+  <tr><td>🛍️ <strong>Souvenir e acquisti</strong></td><td>Oggetti in legno, speck, formaggi, giocattoli</td><td>~85</td></tr>
+  <tr><td>🎟️ <strong>Ingressi, musei, attività varie</strong></td><td>Piano B eventuale, fattorie, extra</td><td>~45</td></tr>
+</table>
+<div class="btotal">
+  <div style="font-size:.88em;opacity:.82">BUDGET EXTRA TOTALE STIMATO</div>
+  <div class="bamt">€ 915 – 1.000</div>
+  <div style="font-size:.82em;opacity:.78;margin-top:4px">Escluso hotel, voli e auto · Sass Pordoi incluso solo se si sale</div>
+</div>
+<div class="infobox ib-green">
+  <strong>💡 Come risparmiare:</strong><br>
+  • Verifica <strong>Dolomiti Supersummer Card 2026</strong> per funivie multiple.<br>
+  • Chiedi sempre sconti famiglia alle casse delle funivie.<br>
+  • I pranzi in malga costano il 30–40% in meno dei rifugi turistici.<br>
+  • Porta acqua e snack da casa ogni mattina.
+</div>
+</div>
+
+<!-- ===== VALIGIA ===== -->
+<div id="bag" class="sec">
+<div class="stitle">🧳 Cosa Mettere in Valigia</div>
+<div class="twocol">
+  <div>
+    <h3 style="color:#1b3f6e;margin-bottom:10px;font-size:.97em">👶 Per i Bambini</h3>
+    <ul class="cl">
+      <li class="ok">Giacca impermeabile e antivento (x2 ciascuno)</li>
+      <li class="ok">Pile/maglione caldo (in quota fa freddo!)</li>
+      <li class="ok">Sistema a cipolla: magliette in strati</li>
+      <li class="ok">Pantaloni lunghi e corti</li>
+      <li class="ok">Scarpe da trekking chiuse per Federico (5 anni)</li>
+      <li class="ok">Scarpe comode per Giulio + sandali</li>
+      <li class="ok">Cappellino da sole + berretto di lana</li>
+      <li class="ok">Guanti leggeri (per quota — Giulio)</li>
+      <li class="ok">Calzini di lana/termici (2 paia)</li>
+      <li class="ok">Pigiami caldi (notti fresche in montagna)</li>
+      <li class="ok">Pannolini extra + salviettine (Giulio)</li>
+      <li class="ok">Crema solare SPF 50+</li>
+      <li class="ok">Occhiali da sole per bambini (UV400)</li>
+      <li class="ok">Ricambio completo in borsa da giorno</li>
+    </ul>
+  </div>
+  <div>
+    <h3 style="color:#1b3f6e;margin-bottom:10px;font-size:.97em">🎒 Attrezzatura Essenziale</h3>
+    <ul class="cl">
+      <li class="ok"><strong>Zaino bimbo Deuter con struttura</strong> — già in possesso, essenziale per quota e sentieri</li>
+      <li class="ok">Zaino trekking leggero 20L</li>
+      <li class="ok">Borracce (almeno 2 grandi)</li>
+      <li class="ok">Binocolo (per marmotte e camosci!)</li>
+      <li class="ok">Kit primo soccorso (cerotti, disinfettante, arnica)</li>
+      <li class="ok">Repellente insetti (malghe!)</li>
+      <li class="ok">Tablet + cuffie per viaggio in auto</li>
+      <li class="ok">Power bank carico</li>
+      <li class="ok">Telo da picnic (leggero, pieghevole)</li>
+      <li class="ok">Sacchetti impermeabili per cambio</li>
+      <li class="ok">Telo antipioggia pieghevole</li>
+    </ul>
+    <h3 style="color:#1b3f6e;margin:14px 0 10px;font-size:.97em">💊 Farmaci</h3>
+    <ul class="cl">
+      <li class="ok">Paracetamolo e ibuprofene pediatrico</li>
+      <li class="ok">Antistaminico (pollini alpini)</li>
+      <li class="ok">Cerotti blistop (scarpe nuove)</li>
+      <li class="warn">Tessera sanitaria europea tutta la famiglia</li>
+      <li class="warn">Assicurazione viaggio/infortuni (montagna!)</li>
+      <li class="warn">118 — numero emergenze in Italia</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ===== CONSIGLI ===== -->
+<div id="tip" class="sec">
+<div class="stitle">💡 Consigli Pratici da Travel Planner Esperto</div>
+<div class="grid">
+  <div class="card"><h3>🌩️ Meteo e Temporali</h3><p>Regola ferrea: scendi dalla quota <strong>entro le 13:30</strong>. I temporali pomeridiani sono quasi quotidiani a giugno. Scarica <strong>Wetter Südtirol</strong> o <strong>meteo.it</strong> ogni sera per pianificare il giorno dopo.</p></div>
+  <div class="card"><h3>🚗 Seggiolini Auto</h3><p>Prenota con l'auto a noleggio <strong>almeno 4–6 settimane prima</strong>. Giulio → gruppo 1/2 (9–25 kg), Federico → gruppo 2/3 (15–36 kg). Porta coperta morbida per il viaggio lungo.</p></div>
+  <div class="card"><h3>📅 Cosa Prenotare in Anticipo</h3><p>• <strong>Rifugio Fermeda/Seceda domenica</strong>: 2–3 settimane prima<br>• <strong>Ristoranti a Canazei (sera)</strong>: 1 settimana prima<br>• <strong>Seggiolini auto</strong>: 1 mese prima<br>• <strong>Check-in online volo</strong>: sera del 24 giugno</p></div>
+  <div class="card"><h3>☀️ Protezione Solare</h3><p>A 2000–3000m la radiazione UV è 2–3× più intensa. SPF 50+ per bambini, riapplicato ogni 2 ore. Cappellino obbligatorio. Giulio ha la pelle particolarmente sensibile.</p></div>
+  <div class="card"><h3>🎒 Zaino Bimbo Deuter</h3><p>Usalo come riserva strategica, non per forza tutto il giorno. Regola pratica: <strong>mettilo in spalla prima che Giulio si lamenti</strong> — quando senti che rallenta o si aggrappa, è il momento. Porta sempre le cinghie regolate.</p></div>
+  <div class="card"><h3>👶 Ritmi dei Bambini</h3><p>Giulio: sonnellino pomeridiano sacro verso le 13:30–15:30. Pianifica il rientro in hotel per quell'ora. Federico: snack ogni 90 min in escursione. Pausa bagno ogni 2h in macchina.</p></div>
+  <div class="card"><h3>🏔️ Sass Pordoi — Decisione in Loco</h3><p>Valutalo quella mattina osservando Giulio. Riposato e attivo → sali, 45 min in cima, scendi. Stanco o irritabile → il Passo Pordoi da solo vale la giornata. <strong>Non è una tappa fissa.</strong></p></div>
+  <div class="card"><h3>📱 App Utili</h3><p><strong>Wetter Südtirol</strong> — meteo alpino preciso<br><strong>Mapy.cz</strong> — mappe offline sentieri<br><strong>Google Maps offline</strong> — scarica Val di Fassa + Val Gardena<br><strong>Fassa.com / Valgardena.it</strong> — info funivie e orari</p></div>
+</div>
+</div>
+
+<!-- ===== ERRORI ===== -->
+<div id="err" class="sec">
+<div class="stitle">⚠️ Errori da Evitare nelle Dolomiti con Bambini Piccoli</div>
+<ul class="cl">
+  <li class="bad"><strong>Programmare attività in quota nel pomeriggio.</strong> I temporali arrivano quasi ogni giorno tra le 14 e le 17. Tutte le escursioni in alta quota devono finire entro le 13:30.</li>
+  <li class="bad"><strong>Usare il zaino bimbo solo quando Giulio è già stanco e piange.</strong> Mettilo in spalla preventivamente quando senti che rallenta. Aspettare la crisi è sempre troppo tardi — specialmente in quota.</li>
+  <li class="bad"><strong>Non portare strati caldi per i bambini.</strong> A giugno a 2500m ci possono essere 8–12°C con vento. Sistema a cipolla, sempre.</li>
+  <li class="bad"><strong>Trattare il Sass Pordoi come tappa fissa.</strong> È un bonus opzionale da valutare quel mattino in base alle condizioni di Giulio — non pianificarlo come obbligatorio.</li>
+  <li class="bad"><strong>Partire tardi la mattina.</strong> Funivie e rifugi si riempiono dopo le 10:30. Arrivare alle 9–10 è fondamentale, specialmente all'Alpe di Siusi e a Seceda.</li>
+  <li class="bad"><strong>Non prenotare il rifugio in quota di domenica.</strong> Il Rifugio Seceda/Fermeda la domenica è pieno. Prenota 2–3 settimane prima.</li>
+  <li class="bad"><strong>Ignorare il sonnellino di Giulio.</strong> Se salta il sonnellino, il pomeriggio sarà difficile per tutti. Rientra in hotel entro le 13:30–14:00 ogni giorno.</li>
+  <li class="bad"><strong>Programmare troppe attività nello stesso giorno.</strong> Una attività principale al giorno è più che sufficiente con un bimbo di 2,5 anni.</li>
+  <li class="bad"><strong>Dimenticare la crema solare.</strong> A 2000m i bambini si ustionano in 20 minuti anche con cielo parzialmente nuvoloso.</li>
+  <li class="bad"><strong>Non scaricare mappe offline.</strong> Il segnale mobile nei valloni alpini è spesso assente.</li>
+  <li class="bad"><strong>Guidare sui passi di sera.</strong> Torna sempre a Canazei prima del buio — tornanti stretti e illuminazione scarsa.</li>
+  <li class="warn"><strong>Tentare la funivia Marmolada con Giulio di 2,5 anni.</strong> Tre cabine, 3265m, freddo intenso — già esclusa dall'itinerario, e giustamente.</li>
+</ul>
+</div>
+
+<!-- ===== FOTOGRAFIA ===== -->
+<div id="pho" class="sec">
+<div class="stitle">📸 Punti Panoramici e Consigli Fotografici</div>
+<table>
+  <tr><th>#</th><th>Location</th><th>Soggetto</th><th>Ora migliore</th><th>Accesso</th></tr>
+  <tr><td>🥇</td><td><strong>Seceda, Ortisei</strong></td><td>Odle/Geisler — la foto iconica delle Dolomiti</td><td>9:00–10:30 (luce dorata laterale)</td><td>✅ Funivia</td></tr>
+  <tr><td>🥈</td><td><strong>Lago di Carezza</strong></td><td>Riflesso del Catinaccio nell'acqua smeraldo</td><td>9:00–10:00 (acqua calma)</td><td>✅ Auto</td></tr>
+  <tr><td>🥉</td><td><strong>Sass Pordoi, 2950m (se si sale)</strong></td><td>Panorama 360° su tutte le cime</td><td>10:00–11:30 (prima delle nuvole)</td><td>✅ Funivia</td></tr>
+  <tr><td>4</td><td><strong>Passo Sella, 2244m</strong></td><td>Sassolungo e Sassopiatto — fermata 10 min</td><td>9:00–10:00 in viaggio</td><td>✅ Auto</td></tr>
+  <tr><td>5</td><td><strong>Alpe di Siusi</strong></td><td>Prati fioriti + Sassolungo + bimbi con le mucche</td><td>9:30–11:00</td><td>✅ Gondola</td></tr>
+  <tr><td>6</td><td><strong>Lago Fedaia</strong></td><td>Ghiacciaio Marmolada e lago turchese</td><td>14:00–15:00</td><td>✅ Auto</td></tr>
+  <tr><td>7</td><td><strong>Canazei al tramonto</strong></td><td>Enrosadira — rocce rosa/arancio (ore 20:30)</td><td>20:15–21:00</td><td>✅ Dal paese</td></tr>
+  <tr><td>8</td><td><strong>Passo Pordoi</strong></td><td>Vista sulla Marmolada e Gruppo del Sella</td><td>10:00–11:00</td><td>✅ Auto</td></tr>
+</table>
+<div class="infobox ib-purple" style="margin-top:14px">
+  <strong>📷 Consigli fotografici pratici:</strong>
+  <ul style="margin-top:8px;padding-left:18px;line-height:2;font-size:.9em">
+    <li><strong>Le foto più belle del viaggio</strong> saranno Giulio e Federico con le mucche alla malga dell'Alpe di Siusi. Telefono sempre carico.</li>
+    <li><strong>Giulio nel zaino Deuter</strong> — fotografalo da davanti mentre guarda le montagne: è una delle immagini più tenere che porterai a casa.</li>
+    <li><strong>Enrosadira</strong>: esci in piazza a Canazei 30 min prima del tramonto. Dura 10–15 min.</li>
+    <li><strong>Grandangolo è tuo amico</strong>: le Dolomiti sono così imponenti che lo zoom le rimpicciolisce.</li>
+    <li><strong>Luce delle 9 di mattina</strong>: calda e laterale. Le foto di mezzogiorno sono piatte.</li>
+    <li><strong>Foto di famiglia nei rifugi</strong>: chiedi al gestore — sono contentissimi di farla.</li>
+    <li><strong>Prospettiva dei bambini</strong>: scendi a livello di Giulio e Federico per le foto — le mucche sembrano giganti, le montagne infinite.</li>
+  </ul>
+</div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('service-worker.js')
+    .then(r=>console.log('SW ok',r.scope))
+    .catch(e=>console.log('SW err',e));
+}
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault(); deferredPrompt=e;
+  const b=document.createElement('button');
+  b.textContent='\u2B07\uFE0F Installa';
+  b.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9999;padding:12px 20px;background:#1b3f6e;color:#fff;border:none;border-radius:24px;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);';
+  b.onclick=()=>{deferredPrompt.prompt();b.remove();};
+  document.body.appendChild(b);
+});
+</script>
+</body>
+</html>
