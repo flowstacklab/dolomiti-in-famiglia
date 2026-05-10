@@ -1,0 +1,133 @@
+Organizza un viaggio di famiglia dettagliato in Trentino-Alto Adige / Dolomiti con le seguenti informazioni.
+
+## DATI DEL VIAGGIO
+
+* Arrivo: Aeroporto di Verona il 19 giugno 2026 alle 12:35
+* Partenza: Aeroporto di Verona il 25 giugno 2026 alle 13:10
+* Auto a noleggio ritirata e riconsegnata in aeroporto
+* Hotel principale: IHR Hotel Villa Emma, Canazei (TN)
+* Durata: 6 notti
+
+## PARTECIPANTI
+
+* Padre: 42 anni
+* Madre: 42 anni
+* Federico: 5/6 anni
+* Giulio: 2/3 anni
+
+## OBIETTIVO DEL VIAGGIO
+
+Vacanza rilassante in famiglia nelle Dolomiti con:
+
+* attività adatte a bambini piccoli
+* panorami spettacolari
+* poca fatica fisica
+* ritmi realistici per una famiglia
+* mix di natura, paesi caratteristici, parchi gioco, animali, funivie e passeggiate semplici
+* attenzione a meteo, pause, sonnellini e gestione bambini
+
+## RICHIESTE IMPORTANTI
+
+Voglio un itinerario estremamente pratico e concreto.
+
+Per ogni giorno includi:
+
+1. Programma mattina / pranzo / pomeriggio / sera
+2. Orari consigliati realistici
+3. Tempi di guida
+4. Livello di difficoltà delle attività
+5. Adatto o meno a passeggino
+6. Eventuali alternative in caso di pioggia
+7. Dove parcheggiare
+8. Costi indicativi (funivie, ingressi, ecc.)
+9. Tempo medio necessario per ogni attività
+10. Suggerimenti utili per bambini di 2 e 5 anni
+
+## INTERESSI
+
+Inserisci prioritariamente:
+
+* Funivie panoramiche
+* Laghi bellissimi e facili da raggiungere
+* Passeggiate semplici
+* Rifugi family-friendly
+* Aree gioco
+* Fattorie / animali
+* Attrazioni tipiche delle Dolomiti
+* Borghi caratteristici
+* Punti panoramici famosi
+* Esperienze autentiche ma non stressanti
+
+## CIBO
+
+La colazione, il pranzo e la cena sono inclusi in hotel.
+
+Tuttavia vorremmo:
+
+* qualche pranzo tipico fuori
+* almeno 2-3 pranzi o cene tipiche memorabili
+* rifugi autentici
+* posti family-friendly
+* specialità locali da provare
+* gelaterie, pasticcerie o merende tipiche
+
+Per ogni ristorante/rifugio indicare:
+
+* cosa ordinare
+* fascia prezzo
+* necessità di prenotazione
+* compatibilità con bambini piccoli
+
+## ATTRAZIONI DA VALUTARE
+
+Valuta e inserisci se adatte:
+
+* Lago di Carezza
+* Passo Pordoi
+* Sass Pordoi
+* Alpe di Siusi
+* Ortisei
+* Val di Fassa
+* Marmolada
+* Lago Fedaia
+* Seceda
+* Passi dolomitici panoramici
+* Malghe con animali
+* Trenino Renon
+* Cascate facili da raggiungere
+* Parco giochi in quota
+
+## VINCOLI IMPORTANTI
+
+* Evitare giornate troppo piene
+* Evitare trekking lunghi o difficili
+* Evitare troppi spostamenti ogni giorno
+* Massimo comfort per bambini piccoli
+* Inserire pause strategiche
+* Considerare possibili temporali pomeridiani tipici delle Dolomiti
+* Suggerire cosa prenotare in anticipo
+
+## OUTPUT RICHIESTO
+
+Voglio:
+
+1. Itinerario completo giorno per giorno
+2. Mappa logica degli spostamenti
+3. Top 10 attività imperdibili
+4. Top 10 ristoranti/rifugi family-friendly
+5. Lista “piano B pioggia”
+6. Budget indicativo totale
+7. Lista cosa mettere in valigia per bambini e montagna a giugno
+8. Consigli pratici da genitore esperto
+9. Errori da evitare nelle Dolomiti con bambini piccoli
+10. Suggerimenti fotografici / punti panoramici migliori
+
+Formato desiderato:
+
+* molto ordinato
+* tabelle dove utili
+* tono da travel planner esperto
+* consigli concreti e non generici
+* nessuna attività irrealistica per bambini piccoli
+
+---
